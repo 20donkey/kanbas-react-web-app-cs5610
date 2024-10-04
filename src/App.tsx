@@ -7,9 +7,8 @@ export default function App() {
   return (
     <HashRouter>
 
-    <div>
-      <h1>Full Name: Nian Liu</h1>
-      <h2>Section No.: VTL-2-OL</h2>
+    <div >
+      
     <Routes>
     <Route path="/" element={<Navigate to="Labs" />} />
           <Route path="/Labs/*" element={<Labs />} />

@@ -1,17 +1,31 @@
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import "../styles.css"
+
 export default function CoursesNavigation() {
   return (
-    <div id="wd-courses-navigation">
-      <Link id="wd-course-home-link"    to="/Kanbas/Courses/Home">Home</Link><br/>
-      <Link id="wd-course-modules-link" to="/Kanbas/Courses/Modules">Modules
-        </Link><br/>
-      <Link id="wd-course-piazza-link"  to="/Kanbas/Courses/1234/Piazza">Piazza</Link><br/>
-      <Link id="wd-course-zoom-link"    to="/Kanbas/Courses/1234/Zoom">Zoom</Link><br/>
-      <Link id="wd-course-quizzes-link" to="/Kanbas/Courses/Assignments">
-          Assignments</Link><br/>
-      <Link id="wd-course-assignments-link" to="/Kanbas/Courses/1234/Quizzes">Quizzes
-        </Link><br/>
-      <Link id="wd-course-grades-link"  to="/Kanbas/Courses/1234/Grades">Grades</Link><br/>
-      <Link id="wd-course-people-link"  to="/Kanbas/People">People</Link><br/>
+    <div id="wd-courses-navigation" className="wd list-group fs-5 rounded-0">
+      <NavLink to="/Kanbas/Courses/Home" className="list-group-item">
+        Home
+      </NavLink>
+      <NavLink to="/Kanbas/Courses/Modules" className="list-group-item">
+        Modules
+      </NavLink>
+      <NavLink to="/Kanbas/Courses/1234/Piazza" className="list-group-item">
+        Piazza
+      </NavLink>
+      <NavLink to="/Kanbas/Courses/1234/Zoom" className="list-group-item">
+        Zoom
+      </NavLink>
+      <NavLink to="/Kanbas/Courses/Assignments" className="list-group-item">
+        Assignments
+      </NavLink>
+      <NavLink to="/Kanbas/Courses/1234/Quizzes" className="list-group-item">
+        Quizzes
+      </NavLink>
+      <NavLink to="/Kanbas/Courses/People" className="list-group-item">
+        People
+      </NavLink>
     </div>
-);}
+  );
+}
+

@@ -1,0 +1,321 @@
+
+   /* Container styling */
+#wd-dashboard {
+    padding: 20px;
+    padding-left: 30px;
+  }
+  
+  /* Course cards */
+  .wd-dashboard-course {
+    width: 270px; /* fixed width */
+    margin-bottom: 40px; /* Space between the rows */
+  }
+  
+  /* Flexbox for courses */
+  #wd-dashboard-courses {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px; /* Space between cards */
+    justify-content: flex-start; /* Aligns the cards to the left */
+  }
+  
+  /* Title, description, and meta styles */
+  .wd-dashboard-course-title {
+    color: blue;
+    font-weight: bold;
+  }
+  
+  .wd-dashboard-course-description {
+    color: #343a40;
+  }
+  
+  .wd-dashboard-course-meta {
+    color: grey;
+    font-size: 0.85rem; 
+  }
+  
+  /* Media queries for responsiveness */
+  @media (max-width: 992px) {
+    .wd-dashboard-course {
+      margin-top: 30px; 
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .wd-dashboard-course {
+      width: 100%; 
+    }
+  }
+
+  /* nav for courses */
+
+  .list-group.wd > .list-group-item {
+    background-color: white; /* White background */
+    color: red; /* Red text color */
+    border: 1px solid transparent; 
+  }
+  
+  .list-group.wd > .list-group-item.active {
+    color: black; 
+    border-left: 3px solid black; /* Black border on left for active link */
+  }
+  
+  /* Hover effect */
+  .list-group.wd > .list-group-item:hover {
+    background-color: #f8f9fa; 
+  }
+  
+
+  
+  
+
+  body {
+    margin: 0;
+    padding: 0;
+  }
+  
+  body * {
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  
+  @media (min-width: 768px) {
+    #wd-kanbas .wd-main-content-offset {
+      padding-left: 140px !important;
+    }
+  }
+
+  /* button for modules */
+  
+.btn-secondary {
+    --bs-btn-color: #000 !important;
+    --bs-btn-bg: #c7cdd1 !important;
+    --bs-btn-border-color: #c7cdd1 !important;
+    --bs-btn-hover-color: #fff !important;
+  }
+  .bg-secondary {
+    --bs-secondary-rgb: 199, 205, 209;
+  }
+  .list-group-item {
+    --bs-list-group-border-color: gray;
+  }
+  .wd-lesson {
+    border-left: 3px solid green !important;
+  }
+
+  /* assignment homepage */
+
+ /* Container styling */
+.wd-assignments-container {
+    padding: 20px;
+  
+
+
+    
+  }
+
+  
+  .wd-search-input {
+
+    
+    border: 1px solid #e4e4e4; /* Border styling */
+    border-radius: 4px; /* Rounded corners */
+    padding-left: 30px;
+  
+    font-size: 16px; 
+    margin-left: 30px;
+    
+  }
+  
+  
+
+
+  
+  /* Header styling */
+  .wd-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  
+  
+  /* .wd-search-input {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 250px;
+  } */
+  
+  .wd-buttons {
+    display: flex;
+  }
+  
+  .wd-group-btn, .wd-assignment-btn {
+    padding: 10px 15px;
+    font-size: 14px;
+    background-color: lightgrey;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    margin-left: 10px;
+    cursor: pointer;
+  }
+  
+  .wd-group-btn:hover, .wd-assignment-btn:hover {
+    background-color: #c9302c;
+  }
+  
+  /* Assignments Title */
+  #wd-assignments-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  .we-assignments-content{
+    background-color: #f8f9fa;
+
+  }
+  .wd-percentage {
+    font-size: 16px;
+    color: grey;
+  }
+
+  
+  .wd-add-btn {
+    font-size: 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #337ab7;
+  }
+  
+  .wd-add-btn:hover {
+    color: #23527c;
+  }
+  #wd-add-assignment{
+    background-color: #c9302c;
+    
+  }
+  
+  #wd-add-assignment:hover{
+    background-color:  lightgrey
+  }
+
+  
+  .wd-document-icon {
+    color: green; /* Adjust icon color as needed */
+    margin-right: 20px; /* Optional space, can also be managed with Flexbox */
+    margin-top: 15px;
+    font-size: larger;
+  }
+  .wd-grisp-icon{
+    margin-top: 15px;
+  }
+  .wd-assignment-list-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: left;
+    background-color: white;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    border-left: 4px solid green;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  .wd-assignment-title{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  #wd-title{
+    border-left:none;
+    box-shadow: none;
+    background-color: lightgrey;
+  }
+  #wd-total{
+    border-radius: 20px;
+    border: 2px solid grey;
+    padding: 5px;
+ 
+  }
+
+
+  .wd-assignment-details {
+    display: flex; /* Ensure it's a flex container */
+  }
+  
+  .wd-assignment-info {
+    display: flex; 
+    flex-direction: column; /* Stack title above description */
+  }
+  
+  .wd-assignment-link {
+    font-weight: bold; /* Optional styling for the assignment title */
+    text-decoration: none;
+    color: #000;
+    font-size: larger;
+  }
+  
+  .wd-assignment-description {
+    margin: 0; /* Reset margin for description if needed */
+    color: #343a40; /* Ensure description text color */
+  }
+
+  #wd-descrip{
+    height: 300px;
+  }
+  
+  .wd-assignment-link:hover {
+    text-decoration: underline;
+  }
+
+  #wd-checkboxes{
+    padding: 10px;
+    font:bold;
+  }
+  
+  .wd-checkbox-option{
+    padding: 20px;
+  }
+ 
+  /* Module Control Buttons */
+  .float-end {
+    display: flex;
+    align-items: center;
+  }
+  
+  .fs-4 {
+    font-size: 20px;
+  }
+  
+  .me-2 {
+    margin-right: 10px;
+  }
+  
+  .wd-search-icon {
+    position: absolute;
+   
+   left: 350px;
+   top: 120px;
+   
+    
+    
+    color: gray; /* Change color as needed */
+    pointer-events: none; /* Prevent clicks on icon */
+  }
+  
+  #wd-checkboxes{
+    padding: 10px;
+    font:bold;
+  }
+  
+  .wd-checkbox-option{
+    padding: 20px;
+  }
+ 
