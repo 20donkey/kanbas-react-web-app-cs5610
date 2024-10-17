@@ -2,9 +2,20 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react';
 import { Breadcrumb } from 'react-bootstrap'; 
 import "../../styles.css"
-
+import { useParams } from "react-router";
+import * as db from "../../Database";
+import { Link } from 'react-router-dom';
 
 export default function AssignmentEditor() {
+  const { assignmentId, cid } = useParams();
+  
+
+  const assignments = db.assignments;
+  const assignment = assignments.find(a => a._id === assignmentId);
+
+ 
+  const title = assignment?.title || 'Untitled Assignment';
+ 
   return (
     <div id="wd-assignments-editor" className="p-4">
      
@@ -13,7 +24,7 @@ export default function AssignmentEditor() {
         <div className="row mb-3">
           <label htmlFor="wd-name" className="col-md-12">Assignment Name</label>
           <div className="col-md-12">
-            <input id="wd-name"  defaultValue="A1" />
+            <input id="wd-name"  defaultValue={title}  />
           </div>
         </div>
         {/* <assignent description> */}
@@ -149,12 +160,18 @@ export default function AssignmentEditor() {
         </div>
 
         {/* Save and Cancel buttons */}
-<div className="d-flex justify-content-end mt-4">
-  <button id="wd-cancel" className="btn btn-secondary me-2">Cancel</button>
-  <button id="wd-save" className="btn btn-danger">Save</button>
-</div>
+        <div className="d-flex justify-content-end mt-4">
+          {/* Cancel button as a Link */}
+          <Link to={`/Kanbas/Courses/${cid}/Assignments`} className="btn btn-secondary me-2">Cancel</Link>
+          {/* Save button as a Link */}
+          <Link to={`/Kanbas/Courses/${cid}/Assignments`} className="btn btn-danger" onClick={() => {
+              // Here you can add any save logic if needed
+              console.log("Assignment saved!");
+            }}>
+            Save
+          </Link>
+        </div>
       </form>
     </div>
   );
 } 
-

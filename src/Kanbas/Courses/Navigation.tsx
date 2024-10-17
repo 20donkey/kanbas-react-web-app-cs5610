@@ -1,31 +1,39 @@
-import { NavLink } from "react-router-dom";
-import "../styles.css"
+
+
+import { NavLink, useParams, useLocation } from "react-router-dom";
+import "../styles.css";
+import { courses } from "../Database";
 
 export default function CoursesNavigation() {
+  const { cid } = useParams();
+  const location = useLocation();
+  const course = courses.find((course) => course._id === cid);
+
+  
+  const links = [
+    "Home",
+    "Modules",
+    "Piazza",
+    "Zoom",
+    "Assignments",
+    "Quizzes",
+    "Grades",
+    "People",
+  ];
+
   return (
     <div id="wd-courses-navigation" className="wd list-group fs-5 rounded-0">
-      <NavLink to="/Kanbas/Courses/Home" className="list-group-item">
-        Home
-      </NavLink>
-      <NavLink to="/Kanbas/Courses/Modules" className="list-group-item">
-        Modules
-      </NavLink>
-      <NavLink to="/Kanbas/Courses/1234/Piazza" className="list-group-item">
-        Piazza
-      </NavLink>
-      <NavLink to="/Kanbas/Courses/1234/Zoom" className="list-group-item">
-        Zoom
-      </NavLink>
-      <NavLink to="/Kanbas/Courses/Assignments" className="list-group-item">
-        Assignments
-      </NavLink>
-      <NavLink to="/Kanbas/Courses/1234/Quizzes" className="list-group-item">
-        Quizzes
-      </NavLink>
-      <NavLink to="/Kanbas/Courses/People" className="list-group-item">
-        People
-      </NavLink>
+      {links.map((link) => (
+        <NavLink
+          key={link}
+          to={`/Kanbas/Courses/${cid}/${link}`}
+          className={`list-group-item ${
+            location.pathname.endsWith(link) ? "active" : ""
+          }`}
+        >
+          {link}
+        </NavLink>
+      ))}
     </div>
   );
 }
-
