@@ -36,3 +36,22 @@
     transform: rotate(360deg);
   }
 }
+
+.list-group-item {
+  display: block;
+  padding: 10px;
+  text-align: center;
+  background-color: black;
+  color: white;
+  border: none;
+}
+
+.list-group-item:hover {
+  background-color: #333; 
+}
+
+
+.list-group-item.bg-white.text-danger {
+  background-color: white;
+  color: red;
+}
