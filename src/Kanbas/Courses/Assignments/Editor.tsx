@@ -1,177 +1,186 @@
-import 'bootstrap/dist/css/bootstrap.min.css'; 
-import React from 'react';
-import { Breadcrumb } from 'react-bootstrap'; 
-import "../../styles.css"
-import { useParams } from "react-router";
-import * as db from "../../Database";
-import { Link } from 'react-router-dom';
+// Editor.tsx
+import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useParams, useNavigate } from 'react-router-dom'; // useNavigate for navigation
+import { updateAssignment, addAssignment } from './reducer';
+import '../../styles.css';
+
+// Import the AssignmentsState type
+import type { AssignmentsState } from './reducer';
 
 export default function AssignmentEditor() {
   const { assignmentId, cid } = useParams();
-  
+  const dispatch = useDispatch();
+  const navigate = useNavigate(); // Initialize navigate for redirection
 
-  const assignments = db.assignments;
-  const assignment = assignments.find(a => a._id === assignmentId);
+  // Select the assignment from the Redux store
+  const assignment = useSelector((state: { assignments: AssignmentsState }) =>
+    state.assignments.assignments.find((a) => a._id === assignmentId)
+  );
 
- 
-  const title = assignment?.title || 'Untitled Assignment';
- 
+  // Local state to manage editable fields
+  const [title, setTitle] = useState(assignment?.title || 'Untitled Assignment');
+  const [points, setPoints] = useState(assignment?.points || 100);
+  const [dueDate, setDueDate] = useState(assignment?.dueDate || '');
+  const [assignTo, setAssignTo] = useState("Everyone");
+  const [availableFrom, setAvailableFrom] = useState("2024-05-06T00:00");
+  const [until, setUntil] = useState("2024-05-13T23:59");
+
+  // Update local state when assignment changes
+  useEffect(() => {
+    if (assignment) {
+      setTitle(assignment.title);
+      setPoints(assignment.points);
+      setDueDate(assignment.dueDate);
+    }
+  }, [assignment]);
+
+  // Save changes by dispatching an update or add action to Redux
+  const handleSave = () => {
+	
+    const updatedAssignment = {
+      _id: assignment?._id || `A${Date.now()}`, // Use existing ID or create a new unique ID
+      title,
+      course: cid || '', // Use the current course ID
+      dueDate,
+      points,
+    };
+	
+
+    if (assignment) {
+      // If the assignment exists, update it
+      dispatch(updateAssignment(updatedAssignment));
+	  console.log("测试" , updateAssignment);
+    } else {
+      // If it's a new assignment, add it to the state
+      dispatch(addAssignment(updatedAssignment));
+    }
+
+    // Navigate back to the assignments list screen
+    navigate(`/Kanbas/Courses/${cid}/Assignments`);
+  };
+
+  // Cancel function to discard changes and navigate back
+  const handleCancel = () => {
+    navigate(`/Kanbas/Courses/${cid}/Assignments`);
+  };
+
   return (
     <div id="wd-assignments-editor" className="p-4">
-     
       <form>
         {/* Assignment Name */}
-        <div className="row mb-3">
-          <label htmlFor="wd-name" className="col-md-12">Assignment Name</label>
-          <div className="col-md-12">
-            <input id="wd-name"  defaultValue={title}  />
-          </div>
+        <div className="mb-3">
+          <label htmlFor="wd-name" className="form-label">Assignment Name</label>
+          <input
+            id="wd-name"
+            className="form-control"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
         </div>
-        {/* <assignent description> */}
-        <div className="row mb-3">
-        <div className="col-md-12 ">
-         <div id="wd-descrip" className="form-control">
-          <p>The assignment is available online</p>
-          <p>Submit a link to the landing page of your Web Application running on Netlify</p>
-          <p>The landing page should include the following:</p>
-          <ul>
-            <li>Your full name and section</li>
-            <li>Links to each of the lab assignments</li>
-            <li>Link to the Kanbas application</li>
-            <li>Links to all relevant source code repositories</li>
 
-          </ul>
-          <p>The Kanbas application should include a link to navigate back to the landing page.</p>
-         </div>
-         </div>
-
+        {/* Assignment Description */}
+        <div className="mb-3">
+          <label htmlFor="wd-description" className="form-label">Description</label>
+          <div id="wd-description" className="form-control" style={{ minHeight: '150px' }}>
+            <p>The assignment is <span style={{ color: 'red' }}>available online</span></p>
+            <p>Submit a link to the landing page of your Web application running on <a href="https://netlify.com">Netlify</a></p>
+            <p>The landing page should include the following:</p>
+            <ul>
+              <li>Your full name and section</li>
+              <li>Links to each of the lab assignments</li>
+              <li>Link to the <a href="#">Kanbas</a> application</li>
+              <li>Links to all relevant source code repositories</li>
+            </ul>
+            <p>The Kanbas application should include a link to navigate back to the landing page.</p>
+          </div>
         </div>
 
         {/* Points */}
-        <div className="row mb-3">
-          <label htmlFor="wd-points" className="col-md-6 col-form-label  text-end">Points</label>
-          <div className="col-md-6">
-            <input id="wd-points" type="number" className="form-control w-50 " defaultValue="100" />
+        <div className="mb-3 row">
+          <label htmlFor="wd-points" className="col-md-2 col-form-label">Points</label>
+          <div className="col-md-10">
+            <input
+              id="wd-points"
+              type="number"
+              className="form-control"
+              value={points}
+              onChange={(e) => setPoints(parseInt(e.target.value))}
+            />
           </div>
         </div>
 
         {/* Assignment Group */}
-        <div className="row mb-3">
-          <label htmlFor="wd-group" className="col-md-6 col-form-label  text-end ">Assignment Group</label>
-          <div className="col-md-6">
-            <select id="wd-group" className="form-control w-50">
-              <option value="assignments">ASSIGNMENTS</option>
-            </select>
-          </div>
-        </div>
-
-        {/* Display Grade As */}
-        <div className="row mb-3">
-          <label htmlFor="wd-display-grade-as" className="col-md-6 col-form-label  text-end">Display Grade as</label>
-          <div className="col-md-6">
-            <select id="wd-display-grade-as" className="form-control w-50">
-              <option value="percentage">Percentage</option>
-            </select>
-          </div>
-        </div>
-
-
-
-        {/* Submission Type */}
-
-        <div className="row mb-3">
-        <label htmlFor="wd-submission-type" className="col-md-6 col-form-label text-end">Submission Type</label>
-        <div className="col-md-6">
-         <div id="wd-submission-group" className="form-control">
-        
-  
-          
-
-          <div className="col-md-10">
-            <select id="wd-submission-type" className="form-control w-50">
-              <option value="online">Online</option>
-            </select>
-          </div>
-
-          <div>
-          <h5 id="wd-checkboxes">Online Entry Options</h5>
-
-
-<input type="checkbox" name="entry-option" className="wd-checkbox-option"/>
-<label htmlFor="wd-chkbox-text">Text Entry</label><br/>
-
-<input type="checkbox" name="entry-option" className="wd-checkbox-option"/>
-<label htmlFor="wd-chkbox-website">Website URL</label><br/>
-
-<input type="checkbox" name="entry-option" className="wd-checkbox-option"/>
-<label htmlFor="wd-chkbox-media">Media Recordings</label><br/>
-
-<input type="checkbox" name="entry-option"className="wd-checkbox-option" />
-<label htmlFor="wd-chkbox-annotation">Student Annotation</label> <br/>
-
-<input type="checkbox" name="entry-option" className="wd-checkbox-option"/>
-<label htmlFor="wd-chkbox-file">File Uploads</label>
-          </div>
-          </div>
-        </div>
-        </div>
-  
-
-        {/* Assign Section */}
-        <div className="row mb-3">
-          <label className="col-md-6 col-form-label text-end">Assign</label>
-          <div className="col-md-6">
-            <div className="form-control">
-              {/* Assign To */}
-              <div className="row mb-3">
-                <label htmlFor="wd-assign-to" className="col-md-4 col-form-label text-end">Assign To</label>
-                <div className="col-md-4">
-                  <input id="wd-assign-to" className="form-control " defaultValue="Everyone" />
-                </div>
+        <div className="mb-3">
+          <label className="form-label">Assign</label>
+          <div className="border p-3">
+            {/* Assign To */}
+            <div className="mb-3 row">
+              <label htmlFor="wd-assign-to" className="col-md-2 col-form-label">Assign to</label>
+              <div className="col-md-10">
+                <input
+                  id="wd-assign-to"
+                  className="form-control"
+                  value={assignTo}
+                  onChange={(e) => setAssignTo(e.target.value)}
+                />
               </div>
+            </div>
 
-              {/* Due Date */}
-              <div className="row mb-3">
-                <label htmlFor="wd-due-date" className="col-md-4 col-form-label text-end">Due</label>
-                <div className="col-md-4">
-                  <input id="wd-due-date" type="date" className="form-control" defaultValue="2024-05-13" />
-                </div>
+            {/* Due Date */}
+            <div className="mb-3 row">
+              <label htmlFor="wd-due-date" className="col-md-2 col-form-label">Due</label>
+              <div className="col-md-10">
+                <input
+                  id="wd-due-date"
+                  type="datetime-local"
+                  className="form-control"
+                  value={dueDate}
+                  onChange={(e) => setDueDate(e.target.value)}
+                />
               </div>
+            </div>
 
-              {/* Available From */}
-              <div className="row mb-3">
-                <label htmlFor="wd-available-from" className="col-md-4 col-form-label text-end">Available From</label>
-                <div className="col-md-4">
-                  <input id="wd-available-from" type="date" className="form-control" defaultValue="2024-05-06" />
-                </div>
+            {/* Available From and Until */}
+            <div className="mb-3 row">
+              <label htmlFor="wd-available-from" className="col-md-2 col-form-label">Available from</label>
+              <div className="col-md-10">
+                <input
+                  id="wd-available-from"
+                  type="datetime-local"
+                  className="form-control mb-2"
+                  value={availableFrom}
+                  onChange={(e) => setAvailableFrom(e.target.value)}
+                />
               </div>
-
-              {/* Available Until */}
-              <div className="row mb-3">
-                <label htmlFor="wd-available-until" className="col-md-4 col-form-label text-end">Until</label>
-                <div className="col-md-4">
-                  <input id="wd-available-until" type="date" className="form-control" defaultValue="2024-05-20" />
-                </div>
+              <label htmlFor="wd-until" className="col-md-2 col-form-label">Until</label>
+              <div className="col-md-10">
+                <input
+                  id="wd-until"
+                  type="datetime-local"
+                  className="form-control"
+                  value={until}
+                  onChange={(e) => setUntil(e.target.value)}
+                />
               </div>
-
-              
             </div>
           </div>
         </div>
 
         {/* Save and Cancel buttons */}
         <div className="d-flex justify-content-end mt-4">
-          {/* Cancel button as a Link */}
-          <Link to={`/Kanbas/Courses/${cid}/Assignments`} className="btn btn-secondary me-2">Cancel</Link>
-          {/* Save button as a Link */}
-          <Link to={`/Kanbas/Courses/${cid}/Assignments`} className="btn btn-danger" onClick={() => {
-              // Here you can add any save logic if needed
-              console.log("Assignment saved!");
-            }}>
+          <button type="button" className="btn btn-secondary me-2" onClick={handleCancel}>
+            Cancel
+          </button>
+          <button type="button" className="btn btn-danger" onClick={handleSave}>
+			
             Save
-          </Link>
+          </button>
+	
         </div>
       </form>
     </div>
   );
-} 
+}
+
+
