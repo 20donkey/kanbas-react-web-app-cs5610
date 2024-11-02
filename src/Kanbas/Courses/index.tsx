@@ -11,15 +11,17 @@ import Home from "./Home";
 import Assignments from "./Assignments";
 import AssignmentEditor from "./Assignments/Editor";
 import People from "./People";
-import { courses } from "../Database";
+import { assignments } from "../Database";
 
 
-export default function Courses() {
+
+export default function Courses({ courses }: { courses: any[]; }) {
 
   const { cid } = useParams();
   const course = courses.find((course) => course._id === cid);
 
   const location = useLocation();
+
   
   
 
@@ -53,7 +55,7 @@ export default function Courses() {
             <Route path="/" element={<Navigate to="Home" />} />
             <Route path="Home" element={<Home />} />
             <Route path="Modules" element={<Modules />} />
-            <Route path="Assignments" element={<Assignments />} />
+            <Route path="Assignments" element={<Assignments  />} />
             <Route path="Assignments/:assignmentId" element={<AssignmentEditor />} />
             <Route path="People" element={<People />} />
           </Routes>
