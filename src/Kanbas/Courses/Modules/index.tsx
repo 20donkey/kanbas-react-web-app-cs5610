@@ -18,19 +18,42 @@ import * as modulesClient from "./client";
 
 
 export default function Modules() {
-  const { cid } = useParams();
-  const [moduleName, setModuleName] = useState("");
-  const { modules } = useSelector((state: any) => state.modulesReducer);
-  const dispatch = useDispatch();
-  const saveModule = async (module: any) => {
-    await modulesClient.updateModule(module);
-    dispatch(updateModule(module));
-  };
+  // const { cid } = useParams();
+  // const [moduleName, setModuleName] = useState("");
+  // const { modules } = useSelector((state: any) => state.modulesReducer);
+  // const dispatch = useDispatch();
+  // const saveModule = async (module: any) => {
+  //   await modulesClient.updateModule(module);
+  //   dispatch(updateModule(module));
+  // };
 
-  const removeModule = async (moduleId: string) => {
-    await modulesClient.deleteModule(moduleId);
-    dispatch(deleteModule(moduleId));
-  };
+  // const removeModule = async (moduleId: string) => {
+  //   await modulesClient.deleteModule(moduleId);
+  //   dispatch(deleteModule(moduleId));
+  // };
+  const { cid } = useParams();
+const [moduleName, setModuleName] = useState("");
+const { modules } = useSelector((state: any) => state.modulesReducer);
+const dispatch = useDispatch();
+
+// Save (update) a module for the specific course
+const saveModule = async (module: any) => {
+  if (!cid) {
+    console.error("Course ID is missing");
+    return;
+  }
+  await modulesClient.updateModule(cid, module); // Pass `cid` as the course ID
+  dispatch(updateModule(module));
+};
+
+// Remove a module for the specific course
+const removeModule = async (moduleId: string) => {
+  if (!cid) {
+    console.error("Course ID is missing");
+    return;
+  }
+  await modulesClient.deleteModule(cid, moduleId); // Pass `cid` as the course ID
+  dispatch(deleteModule(moduleId));};
 
   const fetchModules = async () => {
     const modules = await coursesClient.findModulesForCourse(cid as string);
