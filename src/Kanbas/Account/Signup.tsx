@@ -1,20 +1,45 @@
-
-
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import * as client from "./client";
 export default function Signup() {
+  const [error, setError] = useState("");
+  const [user, setUser] = useState({ username: "", password: "" });
+  const navigate = useNavigate();
+  const signup = async () => {
+    try {
+      await client.signup(user);
+      navigate("/Kanbas/Account/Profile");
+    } catch (err: any) {
+      setError(err.response.data.message);
+    }
+  };
   return (
-    <div id="wd-signin-screen">
-      <h1>Sign up</h1>
-      <input id="wd-username"
-             placeholder="username"
-             className="form-control mb-2"/>
-      <input id="wd-password"
-             placeholder="password" type="password"
-             className="form-control mb-2"/>
-      <Link id="wd-signin-btn"
-            to="/Kanbas/Account/Profile"
-            className="btn btn-primary w-100">
-            Sign up </Link>
-      <Link id="wd-signup-link" to="/Kanbas/Account/Signin">Sign in</Link>
+    <div className="col-md-4 col-12">
+      <div className="form-group">
+        <h1>Signup</h1>
+        {error && <div>{error}</div>}
+        <input placeholder="username"
+          className="form-control mb-2"
+          value={user.username}
+          onChange={(e) =>
+            setUser({
+              ...user,
+              username: e.target.value,
+            })
+          }
+        />
+        <input placeholder="password"
+          className="form-control mb-2"
+          value={user.password}
+          onChange={(e) =>
+            setUser({
+              ...user,
+              password: e.target.value,
+            })
+          }
+        />
+        <button className="form-control btn btn-primary" onClick={signup}> Signup </button>
+      </div>
     </div>
-);}
+  );
+}
