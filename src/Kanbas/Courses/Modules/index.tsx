@@ -35,6 +35,14 @@ export default function Modules() {
 const [moduleName, setModuleName] = useState("");
 const { modules } = useSelector((state: any) => state.modulesReducer);
 const dispatch = useDispatch();
+const fetchModules = async () => {
+  const modules = await coursesClient.findModulesForCourse(cid as string);
+  dispatch(setModules(modules));
+};
+useEffect(() => {
+  fetchModules();
+}, []);
+
 
 // Save (update) a module for the specific course
 const saveModule = async (module: any) => {
@@ -44,19 +52,13 @@ const saveModule = async (module: any) => {
 
 
 // Remove a module for the specific course
-const removeModule = async (moduleId: string) => {
+const removeModule = async (moduleId: String) => {
   await modulesClient.deleteModule(moduleId);
   dispatch(deleteModule(moduleId));
+  console.log("module has been deleted")
 };
 
-  const fetchModules = async () => {
-    const modules = await coursesClient.findModulesForCourse(cid as string);
-    dispatch(setModules(modules));
-  };
-  useEffect(() => {
-    fetchModules();
-  }, []);
-
+ 
   const createModuleForCourse = async () => {
     if (!cid) return;
     const newModule = { name: moduleName, course: cid };
@@ -96,8 +98,9 @@ const removeModule = async (moduleId: string) => {
                }}
                defaultValue={module.name}/>
       )}
- <ModuleControlButtons  moduleId={module._id}
+ <ModuleControlButtons  moduleId={module.moduleId}
        deleteModule={(moduleId) => removeModule(moduleId)}
+       
 
         editModule={(moduleId) => dispatch(editModule(moduleId))} />
             </div>

@@ -13,20 +13,21 @@ import axios from "axios";
 const REMOTE_SERVER = process.env.REACT_APP_REMOTE_SERVER;
 const MODULES_API = `${REMOTE_SERVER}/api/modules`;
 
-
+const axiosWithCredentials = axios.create({ withCredentials: true });
 
 
 
 // Update a specific module for a course
 export const updateModule = async (module: any) => {
-    const { data } = await axios.put(`${MODULES_API}/${module._id}`, module);
+    const { data } = await axiosWithCredentials.put(`${MODULES_API}/${module._id}`, module);
     return data;
   };
   
 
 // Delete a specific module for a course
-export const deleteModule = async (moduleId: string) => {
-    const response = await axios.delete(`${MODULES_API}/${moduleId}`);
+export const deleteModule = async (moduleId: String) => {
+    console.log("deleting module by its id:", moduleId)
+    const response = await axiosWithCredentials.delete(`${MODULES_API}/${moduleId}`);
     return response.data;
    };
    

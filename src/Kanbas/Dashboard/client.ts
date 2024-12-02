@@ -6,6 +6,7 @@ export const fetchEnrollments = async (userId: string) => {
   const response = await axios.get(
     `${REMOTE_SERVER}/api/users/${userId}/enrollments`
   );
+  console.log("Enrollments received from server:", response.data);
   return response.data;
 };
 
