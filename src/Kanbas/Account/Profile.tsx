@@ -479,9 +479,14 @@ export default function Profile() {
   //     console.error("Failed to save profile:", error);
   //   }
   // };
-  const updateProfile = async () => {
-    const updatedProfile = await client.updateUser(profile);
-    dispatch(setProfile(updatedProfile));
+const updateProfile = async () => {
+    console.log("Saving profile with data:", profile);
+    try {
+      const updatedProfile = await client.updateUser(profile);
+      setProfile(updatedProfile);
+    } catch (error) {
+      console.error("Failed to save profile:", error);
+    }
   };
 
 
