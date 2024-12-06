@@ -449,6 +449,7 @@ export default function Profile() {
   });
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const fetchProfile = async () => {
     try {
@@ -467,15 +468,20 @@ export default function Profile() {
     fetchProfile();
   }, []);
 
-  const save = async () => {
-    console.log("Saving profile with data:", profile);
-    try {
-      const updatedProfile = await client.updateUser(profile);
-      setProfile(updatedProfile);
-    } catch (error) {
-      console.error("Failed to save profile:", error);
-    }
+  // const save = async () => {
+  //   console.log("Saving profile with data:", profile);
+  //   try {
+  //     const updatedProfile = await client.updateUser(profile);
+  //     setProfile(updatedProfile);
+  //   } catch (error) {
+  //     console.error("Failed to save profile:", error);
+  //   }
+  // };
+  const updateProfile = async () => {
+    const updatedProfile = await client.updateUser(profile);
+    dispatch(setCurrentUser(updatedProfile));
   };
+
 
   const signout = async () => {
     try {
@@ -489,9 +495,7 @@ export default function Profile() {
   return (
     <div className="container my-5 p-4 border rounded shadow">
       <h1 className="text-center mb-4">Profile</h1>
-      <Link to="/Kanbas/Account" className="btn btn-warning w-100 mb-4">
-        Users
-      </Link>
+     
       {profile && (
         <form>
           <div className="form-group">
@@ -559,9 +563,9 @@ export default function Profile() {
             <button
               className="btn btn-primary w-100 mb-3"
               type="button"
-              onClick={save}
+              onClick={updateProfile}
             >
-              Save
+              Update
             </button>
             <button
               className="btn btn-danger w-100"
